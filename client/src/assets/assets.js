@@ -33,8 +33,11 @@ import lock_icon from './lock_icon.svg'
 import samsung_logo from './samsung_logo.png'
 import adobe_logo from './adobe_logo.png'
 import amazon_logo from './amazon_logo.png'
+import bgImage from './bgImage.png'
+
 
 export const assets = {
+    bgImage,
     logo,
     search_icon,
     cross_icon,

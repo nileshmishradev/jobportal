@@ -16,12 +16,13 @@ import { useNavigate } from 'react-router-dom'
 const Applyjob = () => {
 
   const { id } = useParams() //
+  
   const { getToken } = useAuth(); // clerk token
   const navigate = useNavigate();
 
 
   const [JobData, setJobData] = useState(null)
-   const [isAlreadyApplied, setIsAlreadyApplied] = useState(false);
+  const [isAlreadyApplied, setIsAlreadyApplied] = useState(false);
 
   const {
     jobs,
@@ -31,6 +32,7 @@ const Applyjob = () => {
     fetchUserApplications
   } = useContext(AppContext)
 
+  // FETCH SINGLE JOB
   const fetchJob = async () => {
     const { data } = await axios.get(backendUrl + `/api/jobs/${id}`);
 
@@ -45,6 +47,7 @@ const Applyjob = () => {
     }
   };
 
+  //APPLY JOB HANDLER
   const applyHandler = async () => {
     try {
       if (!userData) {
@@ -73,6 +76,7 @@ const Applyjob = () => {
     }
   };
 
+  // CHECK IF ALREADY APPLIED
   const checkAlreadyApplied = () => {
     const hasApplied = userApplications.some(
       (item) => item.jobId?._id === JobData?._id
@@ -80,17 +84,17 @@ const Applyjob = () => {
     setIsAlreadyApplied(hasApplied);
   };
 
-
+ // USEEFFECT: FETCH JOB
   useEffect(() => {
     if (jobs.length > 0) {
       fetchJob()
     }
   }, [id, jobs])
 
-  
+  //USEEFFECT: CHECK APPLY STATUS
   useEffect(() => {
     checkAlreadyApplied();
-  }, [JobData, userApplications ,id]);
+  }, [JobData, userApplications, id]);
 
   return JobData ? (
     <>
@@ -140,7 +144,7 @@ const Applyjob = () => {
             <div className='w-full lg:w-2/3'>
               <h2 className='font-bold text-2xl mb-4'>Job description</h2>
               <div className='rich-text' dangerouslySetInnerHTML={{ __html: JobData.description }}></div>
-              <button onClick={applyHandler}  className='bg-blue-600 p-2.5 px-10 text-white rounded mt-10'>{isAlreadyApplied ? "Already Applied" : "Apply now"}</button>
+              <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded mt-10'>{isAlreadyApplied ? "Already Applied" : "Apply now"}</button>
             </div>
 
             {/* Right Section More Job */}

@@ -7,28 +7,28 @@ import { toast } from 'react-toastify';
 
 const RecruiterLogin = () => {
 
+    const { setShowRecruiterLogin, backendUrl, setCompanyToken, setCompanyData } = useContext(AppContext)
+
     const navigate = useNavigate();
 
     const [state, setState] = useState('Login')
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
-
     const [image, setImage] = useState(false)
-
     const [isTextDataSubmited, setIsTextDataSubmited] = useState(false)
 
-    const { setShowRecruiterLogin, backendUrl, setCompanyToken, setCompanyData } = useContext(AppContext)
 
-    // to set true isTextDataSubmited so we can display to upload company inage (it is like for in part 1 part is name email and password and second part is to upload image)
+    // to set true isTextDataSubmited so we can display  second par (upload company image) (form divide in 2 parts  first part is name email and password and second part is to upload image)
     const onSubmitHandler = async (e) => {
         e.preventDefault()
 
         if (state == "Sign Up" && !isTextDataSubmited) {
-           return setIsTextDataSubmited(true)
+            return setIsTextDataSubmited(true)
         }
 
         try {
+            //  LOGIN 
             if (state === "Login") {
                 const { data } = await axios.post(backendUrl + "/api/company/login", {
                     email,
@@ -47,7 +47,7 @@ const RecruiterLogin = () => {
                 }
 
             } else {
-                // for singup
+                //  SIGNUP
                 const formData = new FormData();
                 formData.append("name", name);
                 formData.append("password", password);

@@ -139,13 +139,12 @@ const Applications = () => {
                     </td>
                     <td className="py-2 px-4 border-b">
                       <span
-                        className={`${
-                          job.status === "Accepted"
+                        className={`${job.status === "Accepted"
                             ? "bg-green-100"
                             : job.status === "Rejected"
-                            ? "bg-red-100"
-                            : "bg-yellow-100"
-                        } px-4 py-1.5 rounded`}
+                              ? "bg-red-100"
+                              : "bg-yellow-100"
+                          } px-4 py-1.5 rounded`}
                       >
                         {job.status}
                       </span>

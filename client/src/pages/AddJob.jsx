@@ -15,11 +15,12 @@ const AddJob = () => {
 
 
     const { backendUrl, companyToken } = useContext(AppContext);
+
     const editorRef = useRef(null)
     const quillRef = useRef(null)
 
 
-
+  // FORM SUBMIT HANDLER
     const onSubmitHandler = async (e) => {
         e.preventDefault();
 
@@ -45,14 +46,13 @@ const AddJob = () => {
         }
     };
 
-
+    //INIT QUILL EDITOR
     useEffect(() => {
         // Initiate Quill only once
         if (!quillRef.current && editorRef.current) {
             quillRef.current = new Quill(editorRef.current, {
                 theme: 'snow',
             })
-
         }
 
     }, [])

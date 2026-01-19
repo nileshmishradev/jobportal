@@ -6,27 +6,28 @@ import { useAuth, useUser } from "@clerk/clerk-react";
 
 export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
+
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const { user } = useUser();
   const { getToken } = useAuth();
 
-  const [searchFilter, setSearchFilter] = React.useState({
+  const [searchFilter, setSearchFilter] = useState({
     title: "",
     location: "",
   });
+  const [isSearched, setIsSearched] = useState(false);
 
-  const [isSearched, setIsSearched] = React.useState(false);
-
-  const [jobs, setJobs] = React.useState([]);
+  const [jobs, setJobs] = useState([]);
 
   const [showRecruiterLogin, setShowRecruiterLogin] = useState(false);
-
   const [companyToken, setCompanyToken] = useState(null);
   const [companyData, setCompanyData] = useState(null);
 
   const [userData, setUserData] = useState(null);
   const [userApplications, setUserApplications] = useState([]);
 
+  //function to fetchjobs
   const fetchJobs = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/jobs");
@@ -41,6 +42,7 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  //function to fetch companydata
   const fetchComapnyData = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/company/company", {
@@ -58,7 +60,7 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
-  //func to fetch user data
+  //function to fetch user data
   const fetchUserData = async () => {
     try {
       const token = await getToken();
@@ -76,7 +78,7 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
-  //func to fetch user's applied application data
+  //function to fetch user's applied application data
   const fetchUserApplications = async () => {
     try {
       const token = await getToken();
@@ -110,6 +112,7 @@ export const AppContextProvider = ({ children }) => {
     }
   }, [companyToken]);
 
+  // USER LOGIN CHANGE
   useEffect(() => {
     if (user) {
       fetchUserData();

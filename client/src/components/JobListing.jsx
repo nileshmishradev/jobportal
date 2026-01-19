@@ -4,8 +4,8 @@ import { assets, JobCategories, JobLocations } from "../assets/assets";
 import JobCard from "./JobCard";
 
 const JobListing = () => {
-  const { searchFilter, isSearched, setSearchFilter, jobs } =
-    useContext(AppContext);
+
+  const { searchFilter, isSearched, setSearchFilter, jobs } = useContext(AppContext);
 
   const [showFilter, setShowFilter] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -13,6 +13,7 @@ const JobListing = () => {
   const [selectedLocations, setSelectedLocations] = React.useState([]);
   const [filteredJobs, setFilteredJobs] = React.useState(jobs);
 
+  // CATEGORY FILTER HANDLERS
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
@@ -21,6 +22,7 @@ const JobListing = () => {
     );
   };
 
+  // LOCATION FILTER HANDLERS
   const handleLocationChange = (location) => {
     setSelectedLocations((prev) =>
       prev.includes(location)
@@ -29,29 +31,14 @@ const JobListing = () => {
     );
   };
 
+  // APPLY FILTERS
   useEffect(() => {
-    const matchesCategory = (job) =>
-      selectedCategories.length === 0 ||
-      selectedCategories.includes(job.category);
-    const matchesLocation = (job) =>
-      selectedLocations.length === 0 ||
-      selectedLocations.includes(job.location);
-    const matchesTitle = (job) =>
-      searchFilter.title === "" ||
-      job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
-    const matchesSearchLocation = (job) =>
-      searchFilter.location === "" ||
-      job.location.toLowerCase().includes(searchFilter.location.toLowerCase());
-    const newFilteredJobs = jobs
-      .slice()
-      .reverse()
-      .filter(
-        (job) =>
-          matchesCategory(job) &&
-          matchesLocation(job) &&
-          matchesTitle(job) &&
-          matchesSearchLocation(job)
-      );
+    
+    const matchesCategory = (job) => selectedCategories.length === 0 || selectedCategories.includes(job.category);
+    const matchesLocation = (job) => selectedLocations.length === 0 || selectedLocations.includes(job.location);
+    const matchesTitle = (job) => searchFilter.title === "" || job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
+    const matchesSearchLocation = (job) => searchFilter.location === "" || job.location.toLowerCase().includes(searchFilter.location.toLowerCase());
+    const newFilteredJobs = jobs.slice().reverse().filter((job) => matchesCategory(job) && matchesLocation(job) && matchesTitle(job) && matchesSearchLocation(job));
 
     setFilteredJobs(newFilteredJobs);
     setCurrentPage(1); // Reset to first page when filters change
@@ -168,11 +155,10 @@ const JobListing = () => {
                 <a key={index} href="#job-list">
                   <button
                     onClick={() => setCurrentPage(index + 1)}
-                    className={`w-10 h-10 flex items-center justify-center border border-gray-300 rounded ${
-                      currentPage === index + 1
+                    className={`w-10 h-10 flex items-center justify-center border border-gray-300 rounded ${currentPage === index + 1
                         ? "bg-blue-600 text-white"
                         : "text-gray-600"
-                    }`}
+                      }`}
                   >
                     {index + 1}
                   </button>

@@ -1,4 +1,4 @@
-import React, { useContext ,useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { AppContext } from "../context/AppContext";
@@ -16,6 +16,7 @@ const Dashboard = () => {
         navigate("/");
     };
 
+    
     useEffect(() => {
         if (companyData) {
             navigate("/dashboard/manage-jobs");
