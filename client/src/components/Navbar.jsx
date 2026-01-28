@@ -1,20 +1,19 @@
 import React, { useContext } from 'react'
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
 const Navbar = () => {
   const { openSignIn } = useClerk()
   const { user } = useUser()
-
-  const navigate = useNavigate()
-
   const { setShowRecruiterLogin } = useContext(AppContext)
 
   return (
     <div className='shadow py-4'>
       <div className='container px-4 2xl:px-20 mx-auto flex justify-between items-center'>
-        <p onClick={() => navigate('/')} className='cursor-pointer text-3xl text-blue-600 font-medium' >Jobs</p>
+        <Link to='/'>
+          <p className=' text-3xl text-blue-600 font-medium' >Jobs</p>
+        </Link>
         {
           user
             ? <div className='flex items-center gap-3'>
