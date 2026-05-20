@@ -64,10 +64,7 @@ export const getUserJobApplications = async (req, res) => {
       .populate("jobId", "title description location category level salary")
       .populate("companyId", "name email image")
       .exec();
-    if (applications.length === 0) {
-      return res.json({ success: false, message: "No applications found!" });
-    }
-
+  
     res.json({ success: true, applications });
   } catch (error) {
     res.json({ success: false, message: error.message });

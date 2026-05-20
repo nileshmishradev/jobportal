@@ -16,7 +16,7 @@ const Dashboard = () => {
         navigate("/");
     };
 
-    
+
     useEffect(() => {
         if (companyData) {
             navigate("/dashboard/manage-jobs");
@@ -30,20 +30,24 @@ const Dashboard = () => {
             {/* Navbar for Recruiter Panel */}
             <div className='shadow py-4'>
                 <div className='px-5 flex justify-between items-center'>
-                    <img onClick={e => navigate('/')} className='max-sm:w-32 cursor-pointer' src={assets.logo} alt="" />
+                    <img onClick={e => navigate('/dashboard/add-job')} className='max-sm:w-32 cursor-pointer' src={assets.logo} alt="" />
 
                     {/* if there is companyData then display */}
                     {companyData && (
                         <div className='flex items-center gap-3'>
-                            <p className='max-sm:hidden'>Welcome,  {companyData.name}</p>
-                            <div className='relative group'>
-                                <img className='w-8 border rounded-full' src={companyData.image} alt="" />
-                                <div className='absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-12'>
-                                    <ul className='list-none m-0 p-2 bg-white rounded-md border text-sm'>
-                                        <li onClick={logout} className='py-1 px-2 cursor-pointer pr-10'>Logout</li>
-                                    </ul>
-                                </div>
-                            </div>
+                             <p className='max-sm:hidden'>Welcome,  {companyData.name}</p>
+                            <img
+                                className='w-8 border rounded-full'
+                                src={ companyData.image}
+                                alt=""
+                            />
+
+                            <button
+                                onClick={logout}
+                                className='bg-blue-600 text-white px-6 py-2 rounded-full'
+                            >
+                                Logout
+                            </button>
                         </div>
                     )}
 

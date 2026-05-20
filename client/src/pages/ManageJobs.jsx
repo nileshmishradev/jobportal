@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { AppContext } from '../context/AppContext'
+import Loading from '../components/Loading'
 
 const ManageJobs = () => {
 
   const navigate = useNavigate()
 
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState(null);
 
   const { backendUrl, companyToken } = useContext(AppContext);
 
@@ -23,7 +24,7 @@ const ManageJobs = () => {
 
       if (data.success) {
         setJobs(data.jobsData.reverse());
-        console.log(data.jobsData);
+        // console.log(data.jobsData);
       } else {
         toast.error(data.message);
       }
