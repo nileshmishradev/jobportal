@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { AppContext } from '../context/AppContext'
+import Loading from '../components/Loading'
 
 const ManageJobs = () => {
 
   const navigate = useNavigate()
 
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState(false);
 
   const { backendUrl, companyToken } = useContext(AppContext);
 
@@ -23,7 +24,7 @@ const ManageJobs = () => {
 
       if (data.success) {
         setJobs(data.jobsData.reverse());
-        console.log(data.jobsData);
+        // console.log(data.jobsData);
       } else {
         toast.error(data.message);
       }
@@ -70,22 +71,22 @@ const ManageJobs = () => {
           <table className='min-w-full bg-white border border-gray-200 max-sm:text-sm'>
             <thead>
               <tr>
-                <th className='py-2 px-4 border-b text-left max-sm:hidden'>#</th>
+                <th className='py-2 px-4 border-b text-left'>#</th>
                 <th className='py-2 px-4 border-b text-left'>Job Title</th>
                 <th className='py-2 px-4 border-b text-left max-sm:hidden'>Date</th>
                 <th className='py-2 px-4 border-b text-left max-sm:hidden'>Location</th>
-                <th className='py-2 px-4 border-b text-left'>Applicants</th>
+                <th className='py-2 px-4 border-b text-left max-md:hidden'>Applicants</th>
                 <th className='py-2 px-4 border-b text-left'>Visible</th>
               </tr>
             </thead>
             <tbody>
               {jobs.map((job, index) => (
                 <tr key={index} className='text-gray-700'>
-                  <td className='py-2 px-4 border-b max-sm:hidden'>{index + 1}</td>
+                  <td className='py-2 px-4 border-b '>{index + 1}</td>
                   <td className='py-2 px-4 border-b'>{job.title}</td>
                   <td className='py-2 px-4 border-b max-sm:hidden'>{moment(job.date).format('ll')}</td>
                   <td className='py-2 px-4 border-b max-sm:hidden'>{job.location}</td>
-                  <td className='py-2 px-4 border-b text-center'>{job.applicants}</td>
+                  <td className='py-2 px-4 border-b text-center max-md:hidden'>{job.applicants}</td>
                   <td className='py-2 px-4 border-b'>
                     <input onChange={() => changeJobVisibility(job._id)} checked={job.visible} className='scale-125 ml-4' type="checkbox" />
 

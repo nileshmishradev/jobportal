@@ -66,12 +66,12 @@ const ViewApplications = () => {
           <table className='w-full max-w-4xl bg-white border border-gray-200 max-sm:text-sm'>
             <thead>
               <tr className='border-b'>
-                <th className='py-2 px-4 text-left'>#</th>
+                <th className='py-2 px-4 text-left '>#</th>
                 <th className='py-2 px-4 text-left'>User name</th>
                 <th className='py-2 px-4 text-left max-sm:hidden'>Job Title</th>
-                <th className='py-2 px-4 text-left max-sm:hidden'>Location</th>
+                <th className='py-2 px-4 text-left max-md:hidden'>Location</th>
                 <th className='py-2 px-4 text-left'>Resume</th>
-                <th className='py-2 px-4 text-left'>Action</th>
+                <th className='py-2 px-4 text-left max-lg:hidden'>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -79,12 +79,21 @@ const ViewApplications = () => {
                 .filter((item) => item.jobId && item.userId).map((applicant, index) => (
                   <tr key={index} className='text-gray-700'>
                     <td className='py-2 px-4 border-b text-center'>{index + 1}</td>
-                    <td className='py-2 px-4 border-b text-center flex items-center'>
-                      <img className='w-10 h-10 rounded-full mr-3 max-sm:hidden' src={applicant.userId.image} alt="" />
-                      <span>{applicant.userId.name}</span>
+                    <td className='py-2 px-4 border-b'>
+                      <div className='flex items-center gap-3'>
+                        <img
+                          className='hidden lg:block w-10 h-10 rounded-full  object-cover'
+                          src={applicant.userId.image}
+                          alt=""
+                        />
+
+                        <span >
+                          {applicant.userId.name}
+                        </span>
+                      </div>
                     </td>
                     <td className='py-2 px-4 border-b max-sm:hidden'>{applicant.jobId.title}</td>
-                    <td className='py-2 px-4 border-b max-sm:hidden'>{applicant.jobId.location}</td>
+                    <td className='py-2 px-4 border-b max-md:hidden'>{applicant.jobId.location}</td>
                     <td className='py-2 px-4 border-b'>
                       <a href={applicant.userId.resume} target='_blank'
                         className='bg-blue-50 text-blue-400 px-3 py-1 rounded inline-flex gap-2 items-center'
@@ -92,7 +101,7 @@ const ViewApplications = () => {
                         Resume <img src={assets.resume_download_icon} alt="" />
                       </a>
                     </td>
-                    <td className='py-2 px-4 border-b relative'>
+                    <td className='max-lg:hidden py-2 px-4 border-b relative'>
                       {applicant.status === "pending"
                         ? <div className='relative inline-block text-left group'>
                           <button className='text-gray-500 action-button'>...</button>

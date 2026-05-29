@@ -20,7 +20,13 @@ const Applications = () => {
     userApplications,
     fetchUserData,
     fetchUserApplications,
+    loadingApplications
   } = useContext(AppContext);
+
+  // filter applied jobs
+  const filteredApplications = userApplications.filter(
+    (application) => application?.jobId
+  );
 
   const updateResume = async () => {
     try {
@@ -105,53 +111,76 @@ const Applications = () => {
         <table className="min-w-full border bg-white rounded-lg">
           <thead>
             <tr>
-              <th className="py-3 px-4 border-b text-left">Company</th>
-              <th className="py-3 px-4 border-b text-left">Job Title</th>
+              <th className="py-3 px-2 sm:px-4 border-b text-left">Company</th>
+              <th className="py-3 px-2 sm:px-4 border-b text-left">Job Title</th>
               <th className="py-3 px-4 border-b text-left max-sm:hidden">
                 Location
               </th>
               <th className="py-3 px-4 border-b text-left max-sm:hidden">
                 Date
               </th>
-              <th className="py-3 px-4 border-b text-left">Status</th>
+              <th className="py-3 px-2 sm:px-4 border-b text-left">Status</th>
             </tr>
           </thead>
           <tbody>
-            {userApplications
-              .filter((application) => application?.jobId)
-              .map((job, index) =>
-                true ? (
-                  <tr key={index}>
-                    <td className="py-3 px-4 flex items-center gap-2 border-b">
-                      <img
-                        className="w-8 h-8"
-                        src={job.companyId.image}
-                        alt=""
-                      />
-                      {job.companyId.name}
+            {
+              loadingApplications ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-6">
+                    <div className="flex justify-center items-center">
+                      <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                    </div>
+                  </td>
+                </tr>
+              ) :
+                filteredApplications.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" className="text-center py-6">
+                      No applications found
                     </td>
-                    <td className="py-2 px-4 border-b">{job.jobId.title}</td>
-                    <td className="py-2 px-4 border-b max-sm:hidden">
-                      {job.jobId.location}
-                    </td>
-                    <td className="py-2 px-4 border-b max-sm:hidden">
-                      {moment(job.date).format("ll")}
-                    </td>
-                    <td className="py-2 px-4 border-b">
-                      <span
-                        className={`${job.status === "Accepted"
+                  </tr>
+                ) : (
+                  filteredApplications.map((job, index) => (
+                    <tr key={index}>
+                      <td className="py-2 px-2 sm:px-4 border-b">
+                        <div className="flex items-center gap-3">
+                          <img
+                            className="hidden md:block w-10 h-10 rounded-full object-cover"
+                            src={job.companyId.image}
+                            alt=""
+                          />
+
+                          <span>{job.companyId.name}</span>
+                        </div>
+                      </td>
+
+                      <td className="py-2 px-2 sm:px-4 border-b">
+                        {job.jobId.title}
+                      </td>
+
+                      <td className="py-2 px-4 border-b max-sm:hidden">
+                        {job.jobId.location}
+                      </td>
+
+                      <td className="py-2 px-4 border-b max-sm:hidden">
+                        {moment(job.date).format("ll")}
+                      </td>
+
+                      <td className="py-2 px-2 sm:px-4 border-b">
+                        <span
+                          className={`${job.status === "Accepted"
                             ? "bg-green-100"
                             : job.status === "Rejected"
                               ? "bg-red-100"
                               : "bg-yellow-100"
-                          } px-4 py-1.5 rounded`}
-                      >
-                        {job.status}
-                      </span>
-                    </td>
-                  </tr>
-                ) : null
-              )}
+                            } px-4 py-1.5 rounded`}
+                        >
+                          {job.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
           </tbody>
         </table>
       </div>

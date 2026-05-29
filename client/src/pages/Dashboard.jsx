@@ -16,7 +16,7 @@ const Dashboard = () => {
         navigate("/");
     };
 
-    
+
     useEffect(() => {
         if (companyData) {
             navigate("/dashboard/manage-jobs");
@@ -30,19 +30,26 @@ const Dashboard = () => {
             {/* Navbar for Recruiter Panel */}
             <div className='shadow py-4'>
                 <div className='px-5 flex justify-between items-center'>
-                    <img onClick={e => navigate('/')} className='max-sm:w-32 cursor-pointer' src={assets.logo} alt="" />
-
-                    {/* if there is companyData then display */}
+                    <img onClick={e => navigate('/dashboard/add-job')} className='max-sm:w-32 cursor-pointer' src={assets.logo} alt="" />
                     {companyData && (
-                        <div className='flex items-center gap-3'>
-                            <p className='max-sm:hidden'>Welcome,  {companyData.name}</p>
-                            <div className='relative group'>
-                                <img className='w-8 border rounded-full' src={companyData.image} alt="" />
-                                <div className='absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-12'>
-                                    <ul className='list-none m-0 p-2 bg-white rounded-md border text-sm'>
-                                        <li onClick={logout} className='py-1 px-2 cursor-pointer pr-10'>Logout</li>
-                                    </ul>
-                                </div>
+                        <div className="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+                            <p className="hidden sm:block text-sm md:text-base">
+                                Welcome, {companyData.name}
+                            </p>
+
+                            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                                <img
+                                    className="w-8 h-8 border rounded-full object-cover"
+                                    src={companyData.image}
+                                    alt="Company"
+                                />
+
+                                <button
+                                    onClick={logout}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-full transition"
+                                >
+                                    Logout
+                                </button>
                             </div>
                         </div>
                     )}

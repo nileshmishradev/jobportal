@@ -27,18 +27,24 @@ export const AppContextProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [userApplications, setUserApplications] = useState([]);
 
+  const [loading, setLoading] = useState(true)
+  const [loadingApplications, setLoadingApplications] = useState(true);
+
   //function to fetchjobs
   const fetchJobs = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get(backendUrl + "/api/jobs");
       if (data.success) {
         setJobs(data.jobs);
-        console.log(data.jobs);
+        // console.log(data.jobs);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.message);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -51,9 +57,7 @@ export const AppContextProvider = ({ children }) => {
 
       if (data.success) {
         setCompanyData(data.company);
-        console.log(data);
-      } else {
-        toast.error(data.message);
+        // console.log(data);
       }
     } catch (error) {
       toast.error(error.message);
@@ -81,6 +85,7 @@ export const AppContextProvider = ({ children }) => {
   //function to fetch user's applied application data
   const fetchUserApplications = async () => {
     try {
+      setLoadingApplications(true);
       const token = await getToken();
       const { data } = await axios.get(backendUrl + "/api/users/applications", {
         headers: { Authorization: `Bearer ${token}` },
@@ -93,6 +98,8 @@ export const AppContextProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoadingApplications(false);
     }
   };
 
@@ -141,6 +148,8 @@ export const AppContextProvider = ({ children }) => {
     setUserApplications,
     fetchUserData,
     fetchUserApplications,
+    loading,
+    loadingApplications
   };
 
   return <AppContext.Provider value={Value}>{children}</AppContext.Provider>;

@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import { assets, JobCategories, JobLocations } from "../assets/assets";
 import JobCard from "./JobCard";
+import JobCardSkeleton from "./JobCardSkeleton";
 
 const JobListing = () => {
 
-  const { searchFilter, isSearched, setSearchFilter, jobs } = useContext(AppContext);
+  const { searchFilter, isSearched, setSearchFilter, jobs, loading } = useContext(AppContext);
 
   const [showFilter, setShowFilter] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -33,7 +34,7 @@ const JobListing = () => {
 
   // APPLY FILTERS
   useEffect(() => {
-    
+
     const matchesCategory = (job) => selectedCategories.length === 0 || selectedCategories.includes(job.category);
     const matchesLocation = (job) => selectedLocations.length === 0 || selectedLocations.includes(job.location);
     const matchesTitle = (job) => searchFilter.title === "" || job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
@@ -134,13 +135,25 @@ const JobListing = () => {
           Latest Jobs
         </h3>
         <p className="mb-8">Get your desired job from top companies</p>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredJobs
-            .slice((currentPage - 1) * 6, currentPage * 6)
-            .map((job, index) => (
-              <JobCard key={index} job={job} />
-            ))}
+          {loading ? (
+            Array.from({ length: 6 }).map((_, index) => (
+              <JobCardSkeleton key={index} />
+            ))
+          ) : filteredJobs.length === 0 ? (
+            <p className="col-span-full text-center text-gray-500">
+              No jobs found
+            </p>
+          ) : (
+            filteredJobs
+              .slice((currentPage - 1) * 6, currentPage * 6)
+              .map((job, index) => (
+                <JobCard key={index} job={job} />
+              ))
+          )}
         </div>
+
         {/* Pagination */}
         {filteredJobs.length > 0 && (
           <div className="flex justify-center items-center mt-8 space-x-2">
@@ -156,8 +169,8 @@ const JobListing = () => {
                   <button
                     onClick={() => setCurrentPage(index + 1)}
                     className={`w-10 h-10 flex items-center justify-center border border-gray-300 rounded ${currentPage === index + 1
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-600"
+                      ? "bg-blue-600 text-white"
+                      : "text-gray-600"
                       }`}
                   >
                     {index + 1}

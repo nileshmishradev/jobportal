@@ -17,11 +17,14 @@ const app = express();
 // connect db
 await connectDB()
 
-// clerk middleware
-app.use(clerkMiddleware())
+
+
+// Allow multiple origins
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 // Middleware
-app.use(cors());
+app.use(clerkMiddleware()) // clerk middleware
 app.use(express.json()); // Parse JSON request bodies
 
 //Cloudinary
