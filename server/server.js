@@ -20,7 +20,7 @@ await connectDB()
 
 
 // Allow multiple origins
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+const allowedOrigins = ["http://localhost:5173", "https://jobportal-frontend-sage-phi.vercel.app"];
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 // Middleware
